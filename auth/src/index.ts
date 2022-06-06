@@ -1,9 +1,20 @@
-import express from 'express';
+import { app } from './app';
+import mongoose from 'mongoose';
 
-const app = express();
+const start = async () => {
+  try {
+    await mongoose.connect('mongodb+srv://sourav:<password>@cluster0.ww8pd.mongodb.net/?retryWrites=true&w=majority', {
+      user: process.env.DB_USER,
+      pass: process.env.DB_PASSWORD,
+    });
 
-app.get('/api/user/all',(req,res,next)=>{
-  res.send('Hello world!!!')
-})
+    console.log('DB connected successfully....');
+  } catch (error) {
+    console.log(error);
+    process.exit();
+  }
 
-app.listen(4000, () => console.log('Listen ton port 4000'));
+  app.listen(4000, () => console.log('Listen ton port 4000....'));
+};
+
+start();
